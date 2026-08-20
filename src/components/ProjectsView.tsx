@@ -13,10 +13,10 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ projects }) => {
     title: '.11/25/2024   .transcription   .vol [01]',
     subtitle: 'PHOTOBOOK //',
     year: '2024',
-    heyzineUrl: 'https://heyzine.com/flip-book/20f73bb6e5.html',
+    heyzineUrl: 'https://heyzine.com/flip-book/da257e4321.html',
   };
 
-  const customUrl = project.heyzineUrl?.trim() || 'https://heyzine.com/flip-book/20f73bb6e5.html';
+  const customUrl = project.heyzineUrl?.trim() || 'https://heyzine.com/flip-book/da257e4321.html';
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Normalize Heyzine embed URL

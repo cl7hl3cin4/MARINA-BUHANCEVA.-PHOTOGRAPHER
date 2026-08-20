@@ -261,7 +261,7 @@ export const PROJECTS_DATA: ProjectItem[] = [
     subtitle: 'PHOTOBOOK //',
     year: '2024',
     location: 'ARCHIVE',
-    heyzineUrl: 'https://heyzine.com/flip-book/20f73bb6e5.html',
+    heyzineUrl: 'https://heyzine.com/flip-book/da257e4321.html',
     statement: 'Interactive digital transcription of physical photobook edition.',
     tags: ['PHOTOBOOK', 'PRINT EDITION'],
   },
