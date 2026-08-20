@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { ProjectItem } from '../types';
 import { ExternalLink, BookOpen, Loader2 } from 'lucide-react';
@@ -30,51 +30,6 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ projects }) => {
 
   const embedSrc = getEmbedUrl(customUrl);
 
-  // Auto landscape rotation when the user clicks the native Heyzine fullscreen button
-  useEffect(() => {
-    const handleFullscreenChange = async () => {
-      const isFs =
-        Boolean(document.fullscreenElement) ||
-        // @ts-ignore
-        Boolean(document.webkitFullscreenElement) ||
-        // @ts-ignore
-        Boolean(document.mozFullScreenElement) ||
-        // @ts-ignore
-        Boolean(document.msFullscreenElement);
-
-      if (isFs) {
-        try {
-          if (screen.orientation && 'lock' in screen.orientation) {
-            // @ts-ignore
-            await screen.orientation.lock('landscape').catch(() => {});
-          }
-        } catch {
-          // Ignore if device browser disallows
-        }
-      } else {
-        try {
-          if (screen.orientation && 'unlock' in screen.orientation) {
-            screen.orientation.unlock();
-          }
-        } catch {
-          // Ignore
-        }
-      }
-    };
-
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
-    document.addEventListener('MSFullscreenChange', handleFullscreenChange);
-
-    return () => {
-      document.removeEventListener('fullscreenchange', handleFullscreenChange);
-      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
-      document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
-      document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
-    };
-  }, []);
-
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
       <motion.div
@@ -103,10 +58,10 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ projects }) => {
           </div>
         </div>
 
-        {/* Heyzine Flipbook Container with native controls and instant preloader */}
+        {/* Heyzine Flipbook Interactive Embed Viewer */}
         <div
           id="heyzine-book-container"
-          className="relative w-full bg-neutral-900 border border-neutral-300 overflow-hidden w-full min-h-[400px] sm:min-h-[560px] aspect-[16/10]"
+          className="relative w-full bg-neutral-900 border border-neutral-300 overflow-hidden min-h-[420px] sm:min-h-[560px] aspect-[16/10]"
         >
           {/* Subtle loading spinner while iframe loads */}
           {!isLoaded && (
@@ -116,19 +71,22 @@ export const ProjectsView: React.FC<ProjectsViewProps> = ({ projects }) => {
             </div>
           )}
 
-          {/* Heyzine Flipbook iframe */}
+          {/* Heyzine Flipbook iframe with full browser permission headers */}
           {embedSrc ? (
             <iframe
               src={embedSrc}
               title={project.title}
               className="fp-iframe w-full h-full relative z-10"
               allowFullScreen
-              allow="autoplay; fullscreen; clipboard-write"
+              // @ts-ignore
+              webkitallowfullscreen="true"
+              mozallowfullscreen="true"
+              allow="autoplay; fullscreen; clipboard-write; picture-in-picture; accelerometer; gyroscope; screen-wake-lock"
               referrerPolicy="no-referrer"
               scrolling="no"
               loading="eager"
               onLoad={() => setIsLoaded(true)}
-              style={{ border: '1px solid lightgray', width: '100%', height: '100%', minHeight: '400px' }}
+              style={{ border: '1px solid lightgray', width: '100%', height: '100%', minHeight: '420px' }}
             />
           ) : (
             <div className="w-full h-full min-h-[400px] bg-neutral-900 flex flex-col items-center justify-center p-8 text-center text-neutral-400 font-mono-meta">
